@@ -11,7 +11,7 @@
 #include "mt7981.dtsi"
 
 / {
-	model = "Aripi EMMC 16G";
+	model = "Airpi EMMC 16G";
 	compatible = "Airpi,emmc-16g", "mediatek,mt7981";
 
 	aliases {
@@ -58,6 +58,14 @@
                         label = "airpi:5g";
                         gpios = <&pio 35 GPIO_ACTIVE_LOW>;
                 };
+	};
+
+	fan: pwm-fan {
+		compatible = "pwm-fan";
+		#cooling-cells = <2>;
+		cooling-levels = <0 10 20 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220 240 255>;
+		pwms = <&pwm 2 40000 0>;
+		status = "okay";
 	};
 };
 
@@ -160,6 +168,20 @@
 			groups = "emmc_45";
 		};
 	};
+
+	pwm2_pins: pwm2-pins {
+		mux {
+			function = "pwm";
+			groups = "pwm2";
+		};
+	};
+};
+
+
+&pwm {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pwm2_pins>;
+	status = "okay";
 };
 
 &uart0 {

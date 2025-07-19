@@ -22,7 +22,7 @@
  
  		if ( (mac == 4) || ((FIELD_GET(MTK_RXD4_PPE_CPU_REASON, trxd.rxd4)) == HIT_BIND_FORCE_TO_CPU))
 +		{
-+
++		
  		mac = atomic_read(&eth1_in_br);
 -
 +		sent_ppd = 1;
