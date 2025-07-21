@@ -38,8 +38,8 @@ mediatek_setup_interfaces()
 		;;
 	huasifei,wh3000-pro|\
 	*Airpi*)
-                ucidef_set_interfaces_lan "eth0“ ”eth1"
-                ;;
+                ucidef_set_interfaces_lan "eth0 eth1"
+		;;
 	asus,rt-ax52|\
 	asus,rt-ax59u|\
 	cetron,ct3003|\
@@ -145,7 +145,8 @@ mediatek_setup_interfaces()
 	tplink,re6000xd)
 		ucidef_set_interface_lan "lan1 lan2 eth1"
 		;;
-	wirelesstag,zx7981pd)
+	wirelesstag,zx7981pd|\
+	wirelesstag,zx7981pd-ubootmod)
 		ucidef_set_interface_lan "lan1 lan2" "wan"
 		;;
 	xiaomi,mi-router-ax3000t|\
@@ -247,6 +248,12 @@ mediatek_setup_macs()
 		;;
 	openfi,6c*)
 		lan_mac=$(macaddr_add $(cat /sys/class/net/eth1/address) 1)
+		;;
+	wirelesstag,zx7981pd|\
+	wirelesstag,zx7981pd-ubootmod)
+		label_mac=$(mtd_get_mac_binary wtinfo 10)
+		lan_mac=$label_mac
+		wan_mac=$(macaddr_add "$label_mac" 1)
 		;;
 	esac
 		
